@@ -8,25 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial project setup
+- visionOS navigation support
 
-## [1.0.0] - 2025-01-15
+## [1.0.0] - 2024-01-15
 
 ### Added
-- Interactive playground for Liquid Glass effects
-- 10 unique experiments (Basic, Dynamic, Layered, Animated, etc.)
-- 30+ built-in presets library
-- Real-time parameter control panel
-- Swift code export functionality
-- Custom glass components (Slider, Toggle, Button, Card)
-- Keyboard shortcuts for macOS
-- Interactive tutorials for beginners to advanced
+- Type-safe navigation with compile-time checks
+- SwiftUI NavigationStack integration
+- Deep linking support with URL parsing
+- Tab bar coordination
+- Modal presentation handling
+- Navigation state persistence
+- Route parameters with type safety
+- Navigation interceptors (guards)
+- Animated transitions
+- Back stack management
+- Child router support (coordinator pattern)
 
-### Changed
-- Optimized rendering performance for complex compositions
+### Features
+- Zero dependencies
+- Protocol-oriented design
+- Full async/await support
 
-### Fixed
-- Preview panel refresh issues on parameter changes
-
-[Unreleased]: https://github.com/muhittincamdali/LiquidGlass-Playground/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/muhittincamdali/LiquidGlass-Playground/releases/tag/v1.0.0
+[Unreleased]: https://github.com/muhittincamdali/SwiftRouter/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/muhittincamdali/SwiftRouter/releases/tag/v1.0.0
