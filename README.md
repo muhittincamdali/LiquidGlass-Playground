@@ -1,48 +1,70 @@
-# 🧊 LiquidGlass-Playground
+# LiquidGlass Playground 🔮
 
-[![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/Platform-iOS%2018%20%7C%20macOS%2015-blue.svg)](https://developer.apple.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![SPM](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg)](Package.swift)
+[![Swift 6.0](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
+[![iOS 26+](https://img.shields.io/badge/iOS-26%2B-blue.svg)](https://developer.apple.com/ios/)
+[![SwiftUI](https://img.shields.io/badge/SwiftUI-5.0-purple.svg)](https://developer.apple.com/xcode/swiftui/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**An interactive playground for experimenting with Liquid Glass effects in real-time.** Tweak parameters, preview instantly, and export production-ready SwiftUI code.
+An interactive playground for exploring and experimenting with iOS 26's Liquid Glass effects in real-time.
 
----
+```
+╭─────────────────────────────────────────────────────────────────╮
+│                                                                 │
+│     ████████████████████████████████████████████████████       │
+│     █                                                  █       │
+│     █      🔮  Liquid Glass Playground                █       │
+│     █                                                  █       │
+│     █      Explore • Experiment • Export              █       │
+│     █                                                  █       │
+│     ████████████████████████████████████████████████████       │
+│                                                                 │
+╰─────────────────────────────────────────────────────────────────╯
+```
 
 ## ✨ Features
 
-| Feature | Description |
-|---------|-------------|
-| 🎛️ **Real-time Controls** | Adjust blur, refraction, tint, and more with live sliders |
-| 👁️ **Instant Preview** | See changes reflected immediately in the preview panel |
-| 📚 **20+ Presets** | Start from curated presets like Frosted, Aqua, Neon, etc. |
-| 📤 **Code Export** | Generate copy-paste-ready SwiftUI code from your config |
-| 🎓 **Built-in Tutorials** | Step-by-step guides to learn Liquid Glass from scratch |
-| 🎨 **Theme Support** | Light and dark mode adaptive previews |
-| ⚡ **High Performance** | Metal-backed rendering for smooth 60fps interactions |
+### 🎛️ Interactive Parameter Control
+- **Real-time preview** - See changes instantly as you adjust parameters
+- **Intuitive sliders** - Fine-tune blur, tint, opacity, and more
+- **Color picker** - Choose from presets or custom colors
+- **Animation controls** - Add motion to your glass effects
 
----
+### 🧪 10 Unique Experiments
+| Experiment | Description |
+|------------|-------------|
+| **Basic Glass** | Learn the fundamentals of glass effects |
+| **Dynamic Glass** | Create responsive, adaptive surfaces |
+| **Layered Glass** | Stack multiple layers for depth |
+| **Animated Glass** | Add smooth, engaging animations |
+| **Colorful Glass** | Explore tints and gradients |
+| **Interactive Glass** | Build touch-responsive interfaces |
+| **Physics Glass** | Apply physics simulations |
+| **Morphing Glass** | Create shape-shifting effects |
+| **Particle Glass** | Combine particles with glass |
+| **Advanced Glass** | Master pro techniques |
 
-## 📸 Preview
+### 🎨 30+ Built-in Presets
+- **Subtle**: Whisper, Mist, Haze
+- **Bold**: Frosted, Crystal, Ice
+- **Colorful**: Sunset, Ocean, Forest, Lavender, Rose
+- **Modern**: Minimal, Sharp, Rounded
+- **Dark**: Obsidian, Midnight
+- **Animated**: Pulse, Breathe
+- **Effects**: Glow, Neon
 
+### 📤 Code Export
+Generate production-ready Swift code from your experiments:
+
+```swift
+// Example exported code
+RoundedRectangle(cornerRadius: 20)
+    .fill(.ultraThinMaterial)
+    .overlay {
+        RoundedRectangle(cornerRadius: 20)
+            .fill(Color.blue.opacity(0.15))
+    }
+    .shadow(radius: 10, y: 5)
 ```
-┌─────────────────────────────────────────────┐
-│  LiquidGlass Playground                     │
-├──────────────────────┬──────────────────────┤
-│                      │  Blur Radius   ━━●━  │
-│                      │  Refraction    ━●━━  │
-│    Live Preview      │  Tint Opacity  ━━●━  │
-│    Area              │  Corner Radius ━●━━  │
-│                      │  Saturation    ━━━●  │
-│                      │                      │
-│                      │  [Preset: Frosted ▼] │
-│                      │  [Export Code]       │
-├──────────────────────┴──────────────────────┤
-│  Presets: Frosted │ Aqua │ Neon │ Smoke │…  │
-└─────────────────────────────────────────────┘
-```
-
----
 
 ## 📦 Installation
 
@@ -52,179 +74,181 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(
-        url: "https://github.com/muhittincamdali/LiquidGlass-Playground.git",
-        from: "1.0.0"
-    )
+    .package(url: "https://github.com/muhittincamdali/LiquidGlass-Playground.git", from: "1.0.0")
 ]
 ```
 
-Or in Xcode: **File → Add Package Dependencies** → paste the repository URL.
-
----
+Or in Xcode:
+1. File → Add Package Dependencies
+2. Enter: `https://github.com/muhittincamdali/LiquidGlass-Playground.git`
+3. Select version and add to your target
 
 ## 🚀 Quick Start
 
-### Basic Usage
-
 ```swift
+import SwiftUI
 import LiquidGlassPlayground
 
 struct ContentView: View {
+    @State private var parameters = GlassParameters()
+    
     var body: some View {
         PlaygroundView()
     }
 }
 ```
 
-### Using Presets
-
-```swift
-let preset = PresetLibrary.shared.preset(named: "Frosted")
-let engine = PlaygroundEngine(preset: preset)
-```
-
-### Exporting Code
-
-```swift
-let exporter = CodeExporter()
-let swiftCode = exporter.export(engine.currentConfiguration)
-print(swiftCode)
-```
-
----
-
-## 🎛️ Parameters
-
-The playground exposes the following configurable parameters:
-
-| Parameter | Type | Range | Default |
-|-----------|------|-------|---------|
-| `blurRadius` | `CGFloat` | 0 – 50 | 20 |
-| `refractionIndex` | `CGFloat` | 0 – 1 | 0.5 |
-| `tintColor` | `Color` | Any | `.white` |
-| `tintOpacity` | `Double` | 0 – 1 | 0.15 |
-| `cornerRadius` | `CGFloat` | 0 – 40 | 16 |
-| `saturation` | `Double` | 0 – 2 | 1.2 |
-| `brightness` | `Double` | -0.5 – 0.5 | 0.05 |
-| `shadowRadius` | `CGFloat` | 0 – 30 | 8 |
-| `borderWidth` | `CGFloat` | 0 – 4 | 0.5 |
-| `borderOpacity` | `Double` | 0 – 1 | 0.3 |
-
----
-
-## 📚 Presets Library
-
-20 built-in presets to get you started:
-
-| # | Name | Style |
-|---|------|-------|
-| 1 | Frosted | Classic frosted glass |
-| 2 | Aqua | Water-like transparency |
-| 3 | Neon | Vibrant edge glow |
-| 4 | Smoke | Dark translucent overlay |
-| 5 | Crystal | High clarity refraction |
-| 6 | Ice | Cold blue tint |
-| 7 | Amber | Warm golden tone |
-| 8 | Rose | Soft pink tint |
-| 9 | Midnight | Deep dark glass |
-| 10 | Vapor | Ultra-light blur |
-| 11 | Ocean | Deep blue depth |
-| 12 | Sunset | Orange gradient tint |
-| 13 | Forest | Green-tinted glass |
-| 14 | Lavender | Soft purple haze |
-| 15 | Pearl | Iridescent white |
-| 16 | Obsidian | Jet black glass |
-| 17 | Copper | Metallic warm tone |
-| 18 | Arctic | Bright icy blue |
-| 19 | Sandstone | Earthy matte finish |
-| 20 | Prism | Rainbow refraction |
-
----
-
 ## 🏗️ Architecture
 
 ```
 Sources/LiquidGlassPlayground/
+├── App/
+│   ├── PlaygroundApp.swift      # Main app entry point
+│   ├── AppState.swift           # Central state management
+│   └── ContentView.swift        # Root content view
 ├── Core/
-│   ├── PlaygroundEngine.swift      # State management
-│   └── ParameterControl.swift      # Control definitions
-├── Effects/
-│   ├── GlassEffectPlayground.swift # Glass effect renderer
-│   └── BlurPlayground.swift        # Blur configurations
-├── Presets/
-│   └── PresetLibrary.swift         # 20 curated presets
-├── Export/
-│   └── CodeExporter.swift          # Swift code generation
+│   ├── PlaygroundEngine.swift   # Core rendering engine
+│   ├── ParameterControl.swift   # Parameter management
+│   ├── GlassParameters.swift    # Parameter model
+│   └── PlaygroundConfiguration.swift
+├── Experiments/
+│   ├── BasicGlassExperiment.swift
+│   ├── DynamicGlassExperiment.swift
+│   ├── LayeredGlassExperiment.swift
+│   ├── AnimatedGlassExperiment.swift
+│   ├── ColorfulGlassExperiment.swift
+│   ├── InteractiveGlassExperiment.swift
+│   ├── PhysicsGlassExperiment.swift
+│   ├── MorphingGlassExperiment.swift
+│   ├── ParticleGlassExperiment.swift
+│   └── AdvancedGlassExperiment.swift
+├── Components/
+│   ├── GlassSlider.swift        # Custom slider
+│   ├── GlassToggle.swift        # Custom toggle
+│   ├── GlassMenu.swift          # Dropdown menu
+│   ├── GlassCard.swift          # Card component
+│   ├── GlassButton.swift        # Button styles
+│   └── GlassColorPicker.swift   # Color picker
 ├── Views/
-│   ├── PlaygroundView.swift        # Main container view
-│   ├── ControlPanel.swift          # Parameter sliders
-│   └── PreviewPanel.swift          # Live preview area
-└── Tutorials/
-    └── BasicGlassTutorial.swift    # Interactive tutorial
+│   ├── PlaygroundView.swift     # Main playground
+│   ├── ControlPanel.swift       # Parameter controls
+│   └── PreviewPanel.swift       # Live preview
+├── Presets/
+│   ├── PresetLibrary.swift      # Built-in presets
+│   └── PresetManager.swift      # Preset storage
+├── Export/
+│   └── CodeExporter.swift       # Swift code generation
+└── Helpers/
+    └── GlassEnvironment.swift   # Environment utilities
 ```
 
----
+## 🎮 Using the Playground
 
-## 🎓 Tutorials
+### Basic Usage
 
-The built-in tutorial system walks you through Liquid Glass concepts:
+1. **Select an Experiment** from the sidebar
+2. **Adjust Parameters** using the control panel
+3. **Preview Changes** in real-time
+4. **Export Code** when satisfied
 
-1. **Basic Glass** — Understanding blur, tint, and refraction
-2. **Layering Effects** — Combining multiple glass layers
-3. **Dynamic Parameters** — Animating glass properties
-4. **Export Workflow** — From playground to production
+### Keyboard Shortcuts (macOS)
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘ + N` | New Experiment |
+| `⌘ + P` | Toggle Preview |
+| `⌘ + K` | Toggle Controls |
+| `⌘ + ⇧ + E` | Export Code |
+| `⌘ + ⇧ + R` | Reset to Defaults |
+
+## 📚 Tutorials
+
+The playground includes interactive tutorials:
+
+- **Basic Tutorial**: Introduction to glass effects
+- **Intermediate Tutorial**: Dynamic and layered effects
+- **Advanced Tutorial**: Physics, particles, and pro techniques
+
+## 🧩 Custom Components
+
+### GlassSlider
 
 ```swift
-BasicGlassTutorial.steps // Returns guided tutorial steps
+GlassSlider(
+    value: $blurRadius,
+    range: 0...50,
+    label: "Blur Radius",
+    format: "%.0f"
+)
 ```
 
----
+### GlassToggle
 
-## 🧪 Testing
-
-```bash
-swift test
+```swift
+GlassToggle(
+    isOn: $enableAnimation,
+    label: "Enable Animation"
+)
 ```
 
-The test suite covers:
-- Engine state management
-- Preset loading and validation
-- Code export correctness
-- Parameter boundary enforcement
+### GlassCard
 
----
+```swift
+GlassCard {
+    Text("Your content here")
+}
+```
 
-## 📋 Requirements
+### GlassButton
 
-- iOS 18.0+ / macOS 15.0+
-- Swift 6.0+
-- Xcode 26+
+```swift
+GlassButton("Submit", icon: "checkmark") {
+    submitForm()
+}
+```
 
----
+## ⚡ Performance Tips
+
+1. **Reduce blur radius** for better performance
+2. **Limit layer count** to avoid overdraw
+3. **Use `drawingGroup()`** for complex compositions
+4. **Avoid overlapping glass** elements
+
+## 🎯 Requirements
+
+- **iOS 26.0+** / **macOS 15.0+**
+- **Swift 6.0+**
+- **Xcode 16.0+**
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please:
 
----
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Apple's Liquid Glass design language (WWDC25)
-- SwiftUI framework team
-- The open-source Swift community
+- Apple's iOS 26 design team for the Liquid Glass concept
+- SwiftUI community for inspiration and feedback
 
 ---
 
-> Built with ❤️ for the SwiftUI community
+**Made with ❤️ for the iOS development community**
+
+```
+   ╱╲
+  ╱  ╲     Liquid Glass
+ ╱    ╲    Playground
+╱──────╲   
+╲      ╱   Explore the future
+ ╲    ╱    of UI design
+  ╲  ╱
+   ╲╱
+```
