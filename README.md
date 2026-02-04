@@ -1,46 +1,61 @@
-<div align="center">
+<p align="center">
+  <img src="Assets/logo.png" alt="Liquid Glass Playground" width="200"/>
+</p>
 
-# 🎮 LiquidGlass-Playground
+<h1 align="center">Liquid Glass Playground</h1>
 
-**Interactive Swift Playground for exploring Liquid Glass effects**
+<p align="center">
+  <strong>🎮 Interactive Swift Playground for exploring Liquid Glass effects</strong>
+</p>
 
-[![Swift](https://img.shields.io/badge/Swift-6.0+-F05138?style=for-the-badge&logo=swift&logoColor=white)](https://swift.org)
-[![iOS](https://img.shields.io/badge/iOS-26.0+-000000?style=for-the-badge&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-
-</div>
-
----
-
-## ✨ Features
-
-- 🎮 **Interactive** — Real-time parameter tweaking
-- 🧪 **Experiments** — Try different effects
-- 📚 **Learn** — Understand Liquid Glass
-- 🎨 **Export** — Copy code snippets
-- 📱 **iPad Ready** — Swift Playgrounds app
+<p align="center">
+  <img src="https://img.shields.io/badge/iOS-26-blue.svg" alt="iOS 26"/>
+  <img src="https://img.shields.io/badge/Swift_Playgrounds-5.0-orange.svg" alt="Swift Playgrounds"/>
+</p>
 
 ---
 
-## 🚀 Getting Started
+## What's Inside
 
-1. Open in Xcode or Swift Playgrounds
-2. Run the playground
-3. Adjust parameters with sliders
-4. Copy generated code to your project
+Interactive playground to experiment with iOS 26's Liquid Glass:
+
+### Experiments
+
+1. **Glass Opacity** - Adjust transparency
+2. **Blur Intensity** - Control blur amount
+3. **Tint Colors** - Add color overlays
+4. **Border Effects** - Glass borders
+5. **Animations** - Glass transitions
+6. **Refraction** - Light bending effects
+
+## Usage
 
 ```swift
-// Generated from playground
-Text("Hello")
-    .liquidGlass(
-        tint: .blue,
-        blur: 20,
-        opacity: 0.8
-    )
+// Open in Swift Playgrounds or Xcode
+
+import LiquidGlassPlayground
+
+// Experiment with parameters
+let glass = GlassView()
+    .opacity(0.3)
+    .blur(20)
+    .tint(.blue)
+    .border(width: 1, color: .white.opacity(0.3))
+
+// See real-time preview
+PlaygroundPage.current.setLiveView(glass)
 ```
 
----
+## Requirements
 
-## 📄 License
+- Swift Playgrounds 5.0+ or Xcode 18+
+- iOS 26 SDK
+- Apple Silicon Mac or iPad
 
-MIT • [@muhittincamdali](https://github.com/muhittincamdali)
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+MIT License
