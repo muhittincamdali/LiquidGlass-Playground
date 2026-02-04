@@ -1,0 +1,6 @@
+# Code Owners for LiquidGlass-Playground
+* @muhittincamdali
+/Sources/ @muhittincamdali
+/Tests/ @muhittincamdali
+*.md @muhittincamdali
+Package.swift @muhittincamdali
