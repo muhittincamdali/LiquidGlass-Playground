@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="Assets/logo.png" alt="Liquid Glass Playground" width="200"/>
-</p>
-
 <h1 align="center">🧊 Liquid Glass Playground</h1>
 
 <p align="center">
