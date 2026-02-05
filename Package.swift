@@ -1,13 +1,13 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 
 import PackageDescription
 
 let package = Package(
     name: "LiquidGlassPlayground",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v13),
-        .visionOS(.v1)
+        .iOS(.v26),
+        .macOS(.v26),
+        .visionOS(.v2)
     ],
     products: [
         .library(
@@ -20,11 +20,16 @@ let package = Package(
         .target(
             name: "LiquidGlassPlayground",
             dependencies: [],
-            path: "Sources/LiquidGlassPlayground"
+            path: "Sources/LiquidGlassPlayground",
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency"),
+                .enableExperimentalFeature("AccessLevelOnImport")
+            ]
         ),
         .testTarget(
             name: "LiquidGlassPlaygroundTests",
             dependencies: ["LiquidGlassPlayground"]
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )

@@ -2,20 +2,23 @@
   <img src="Assets/logo.png" alt="Liquid Glass Playground" width="200"/>
 </p>
 
-<h1 align="center">Liquid Glass Playground</h1>
+<h1 align="center">🧊 Liquid Glass Playground</h1>
 
 <p align="center">
   <strong>🎮 Interactive Swift Playground for exploring iOS 26's Liquid Glass effects</strong>
 </p>
 
 <p align="center">
+  <em>Learn the real iOS 26 Liquid Glass API with 10 hands-on experiments</em>
+</p>
+
+<p align="center">
   <a href="https://github.com/muhittincamdali/LiquidGlass-Playground/actions/workflows/ci.yml">
     <img src="https://github.com/muhittincamdali/LiquidGlass-Playground/actions/workflows/ci.yml/badge.svg" alt="CI"/>
   </a>
-  <img src="https://img.shields.io/badge/iOS-26-007AFF?style=flat-square&logo=apple&logoColor=white" alt="iOS 26"/>
+  <img src="https://img.shields.io/badge/Platform-iOS_26-007AFF?style=flat-square&logo=apple&logoColor=white" alt="iOS 26"/>
   <img src="https://img.shields.io/badge/Swift-6.0-FA7343?style=flat-square&logo=swift&logoColor=white" alt="Swift 6.0"/>
-  <img src="https://img.shields.io/badge/Swift_Playgrounds-5.0-orange?style=flat-square&logo=swift&logoColor=white" alt="Swift Playgrounds"/>
-  <img src="https://img.shields.io/badge/Xcode-18+-147EFB?style=flat-square&logo=xcode&logoColor=white" alt="Xcode 18"/>
+  <img src="https://img.shields.io/badge/Xcode-26+-147EFB?style=flat-square&logo=xcode&logoColor=white" alt="Xcode 26"/>
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"/>
 </p>
 
@@ -48,16 +51,30 @@
 
 **Liquid Glass Playground** is an interactive Swift Playground that lets you explore and experiment with iOS 26's revolutionary Liquid Glass design language. Perfect for designers and developers who want to understand the new glass effects before implementing them in production apps.
 
-```swift
-// Create stunning glass effects in seconds
-let glass = GlassView()
-    .opacity(0.3)
-    .blur(20)
-    .tint(.blue)
-    .border(width: 1, color: .white.opacity(0.3))
+> ⚠️ **Note**: This playground uses **real iOS 26 APIs** like `.glassEffect()`, `GlassEffectContainer`, and `.buttonStyle(.glass)`. It requires Xcode 26+ and iOS 26 SDK.
 
-// See real-time preview
-PlaygroundPage.current.setLiveView(glass)
+```swift
+// Native iOS 26 Liquid Glass API
+import SwiftUI
+
+struct GlassCard: View {
+    @Namespace private var namespace
+    
+    var body: some View {
+        GlassEffectContainer {
+            VStack(spacing: 16) {
+                Text("Liquid Glass")
+                    .font(.title.bold())
+                
+                Button("Interactive") { }
+                    .buttonStyle(.glassProminent)
+                    .glassEffectID("button", in: namespace)
+            }
+            .padding()
+            .glassEffect(.regular.tint(.blue.opacity(0.2)), in: RoundedRectangle(cornerRadius: 24))
+        }
+    }
+}
 ```
 
 ## Features
@@ -77,11 +94,27 @@ PlaygroundPage.current.setLiveView(glass)
 
 | Requirement | Version |
 |-------------|---------|
-| iOS SDK | 26.0+ |
-| Swift | 6.0+ |
-| Xcode | 18.0+ |
-| Swift Playgrounds | 5.0+ |
+| iOS SDK | **26.0+** |
+| macOS SDK | **26.0+** |
+| visionOS SDK | **2.0+** |
+| Swift | **6.0+** |
+| Xcode | **26.0+** |
 | Hardware | Apple Silicon Mac or iPad |
+
+## Native iOS 26 APIs Used
+
+This playground teaches you the **real** iOS 26 Liquid Glass APIs:
+
+| API | Description |
+|-----|-------------|
+| `.glassEffect()` | Apply Liquid Glass material to any view |
+| `.glassEffect(.regular)` | Standard glass appearance |
+| `.glassEffect(.regular.interactive())` | Touch-responsive glass |
+| `.glassEffect(.regular.tint(.color))` | Tinted glass effect |
+| `GlassEffectContainer` | Container for morphable glass elements |
+| `.glassEffectID(_:in:)` | Identity for morphing transitions |
+| `.buttonStyle(.glass)` | Translucent glass button style |
+| `.buttonStyle(.glassProminent)` | Opaque prominent glass button |
 
 ## Installation
 
@@ -102,105 +135,177 @@ cd LiquidGlass-Playground
 open Package.swift
 ```
 
-## Experiments
+## 🧪 10 Interactive Experiments
 
-The playground includes 8 interactive experiments:
+The playground includes **10 hands-on experiments** using native iOS 26 APIs:
 
-### 1. Glass Opacity
-
-Adjust the transparency of your glass view:
+### 1. Basic Glass Effect ✅
+Learn the fundamentals of `.glassEffect()` modifier:
 
 ```swift
-GlassView()
-    .opacity(0.1)  // Subtle glass
-    .opacity(0.5)  // Medium glass
-    .opacity(0.9)  // Nearly opaque
+Text("Hello, Glass!")
+    .padding()
+    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16))
 ```
 
-### 2. Blur Intensity
-
-Control the frosted glass effect:
+### 2. Interactive Glass ✅
+Touch-responsive glass with `.interactive()`:
 
 ```swift
-GlassView()
-    .blur(5)   // Light blur
-    .blur(20)  // Medium blur
-    .blur(50)  // Heavy blur
+Button("Tap Me") { }
+    .buttonStyle(.glass)
+    .buttonBorderShape(.capsule)
 ```
 
-### 3. Tint Colors
-
-Add color overlays to your glass:
-
-```swift
-GlassView()
-    .tint(.blue)
-    .tint(.purple.opacity(0.3))
-    .tint(LinearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
-```
-
-### 4. Border Effects
-
-Customize glass borders:
+### 3. Morphing Glass ✅
+Fluid transitions with `GlassEffectContainer`:
 
 ```swift
-GlassView()
-    .border(width: 1, color: .white.opacity(0.3))
-    .border(width: 2, gradient: .linearGradient(colors: [.white, .clear]))
-    .cornerRadius(20)
-```
+@Namespace private var namespace
 
-### 5. Animations
-
-Explore glass transitions:
-
-```swift
-GlassView()
-    .animation(.spring(duration: 0.5))
-    .transition(.opacity.combined(with: .scale))
-```
-
-### 6. Refraction Effects
-
-Simulate light bending:
-
-```swift
-GlassView()
-    .refraction(intensity: 0.3)
-    .chromaAberration(0.02)
-```
-
-### 7. Stacking Glass
-
-Layer multiple glass views:
-
-```swift
-ZStack {
-    GlassView().blur(30)
-    GlassView().blur(10).offset(x: 20, y: 20)
+GlassEffectContainer(spacing: 12) {
+    Button { } label: {
+        Image(systemName: isExpanded ? "xmark" : "plus")
+    }
+    .buttonStyle(.glassProminent)
+    .glassEffectID("main", in: namespace)
+    
+    if isExpanded {
+        // More buttons that morph from/to main
+    }
 }
 ```
 
-### 8. Dynamic Island Integration
-
-Preview how glass interacts with Dynamic Island:
+### 4. Glass with Blur ✅
+Understand how glass interacts with blur and materials:
 
 ```swift
-DynamicIslandPreview {
-    GlassView()
-        .blur(20)
-        .tint(.black.opacity(0.5))
+ZStack {
+    Image("background")
+        .blur(radius: 10)
+    
+    Text("Overlay")
+        .glassEffect(.regular, in: .capsule)
+}
+```
+
+### 5. Glass with Tint ✅
+Add color personality to your glass:
+
+```swift
+Text("Tinted Glass")
+    .padding()
+    .glassEffect(
+        .regular.tint(.purple.opacity(0.3)),
+        in: RoundedRectangle(cornerRadius: 16)
+    )
+```
+
+### 6. Glass Navigation Bar ✅
+Build beautiful navigation components:
+
+```swift
+GlassEffectContainer {
+    HStack {
+        Button { } label: {
+            Image(systemName: "chevron.left")
+        }
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
+        
+        Spacer()
+        Text("Title")
+        Spacer()
+    }
+    .padding()
+    .glassEffect(.regular, in: Rectangle())
+}
+```
+
+### 7. Glass Tab Bar ✅
+Create stunning tab bars with morphing:
+
+```swift
+GlassEffectContainer(spacing: 0) {
+    HStack(spacing: 0) {
+        ForEach(tabs) { tab in
+            TabButton(tab: tab, isSelected: selectedTab == tab.id)
+                .glassEffectID(tab.id, in: namespace)
+        }
+    }
+    .glassEffect(.regular, in: Capsule())
+}
+```
+
+### 8. Glass Card ✅
+Design beautiful content containers:
+
+```swift
+VStack(alignment: .leading, spacing: 12) {
+    Text("Card Title")
+        .font(.title2.bold())
+    
+    Text("Card content here...")
+        .foregroundStyle(.secondary)
+}
+.padding(20)
+.glassEffect(.regular, in: RoundedRectangle(cornerRadius: 24))
+```
+
+### 9. Glass Button ✅
+Master all button styles and configurations:
+
+```swift
+// Translucent
+Button("Glass") { }
+    .buttonStyle(.glass)
+
+// Prominent (opaque)
+Button("Prominent") { }
+    .buttonStyle(.glassProminent)
+
+// Tinted
+Button("Tinted") { }
+    .buttonStyle(.glass)
+    .tint(.purple)
+```
+
+### 10. Glass Modal ✅
+Sheets, alerts, and popup menus:
+
+```swift
+.sheet(isPresented: $showSheet) {
+    SheetContent()
+        .presentationBackground(.ultraThinMaterial)
+        .presentationDetents([.medium, .large])
 }
 ```
 
 ## Usage
 
-### Basic Glass View
+### Quick Start
 
 ```swift
+import SwiftUI
 import LiquidGlassPlayground
+
+@main
+struct MyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            // Launch the experiments index
+            LiquidGlassPlayground.mainView
+        }
+    }
+}
+```
+
+### Basic Glass Card
+
+```swift
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct ContentView: View {
     var body: some View {
         ZStack {
@@ -212,49 +317,62 @@ struct ContentView: View {
             )
             .ignoresSafeArea()
             
-            // Glass card
-            GlassView {
-                VStack(spacing: 16) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 48))
-                    Text("Liquid Glass")
-                        .font(.title)
-                    Text("iOS 26")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(32)
+            // Glass card using native iOS 26 API
+            VStack(spacing: 16) {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 48))
+                Text("Liquid Glass")
+                    .font(.title.bold())
+                Text("iOS 26")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
-            .blur(15)
-            .opacity(0.25)
-            .cornerRadius(24)
+            .padding(32)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 24))
         }
     }
 }
-
-// Preview
-PlaygroundPage.current.setLiveView(ContentView())
 ```
 
-### Interactive Sliders
+### Interactive Morphing Demo
 
 ```swift
-struct ExperimentView: View {
-    @State private var blur: CGFloat = 20
-    @State private var opacity: CGFloat = 0.3
-    @State private var tintColor: Color = .white
+@available(iOS 26.0, *)
+struct MorphingDemo: View {
+    @State private var isExpanded = false
+    @Namespace private var namespace
     
     var body: some View {
-        VStack {
-            GlassView()
-                .blur(blur)
-                .opacity(opacity)
-                .tint(tintColor)
-                .frame(width: 200, height: 200)
-            
-            Slider(value: $blur, in: 0...50)
-            Slider(value: $opacity, in: 0...1)
-            ColorPicker("Tint", selection: $tintColor)
+        GlassEffectContainer(spacing: 12) {
+            VStack(spacing: 12) {
+                // Main toggle
+                Button {
+                    withAnimation(.bouncy) {
+                        isExpanded.toggle()
+                    }
+                } label: {
+                    Image(systemName: isExpanded ? "xmark" : "plus")
+                        .font(.title2)
+                        .frame(width: 56, height: 56)
+                }
+                .buttonStyle(.glassProminent)
+                .buttonBorderShape(.circle)
+                .glassEffectID("main", in: namespace)
+                
+                // Expandable items
+                if isExpanded {
+                    ForEach(["camera", "photo", "doc"], id: \.self) { icon in
+                        Button { } label: {
+                            Image(systemName: icon)
+                                .frame(width: 44, height: 44)
+                        }
+                        .buttonStyle(.glass)
+                        .buttonBorderShape(.circle)
+                        .glassEffectID(icon, in: namespace)
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+            }
         }
     }
 }
@@ -262,26 +380,35 @@ struct ExperimentView: View {
 
 ## Code Examples
 
-### Creating a Glass Button
+### Glass Button Styles
 
 ```swift
-struct GlassButton: View {
-    let title: String
-    let action: () -> Void
-    
+@available(iOS 26.0, *)
+struct GlassButtonExamples: View {
     var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.headline)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                .background {
-                    GlassView()
-                        .blur(10)
-                        .opacity(0.2)
-                }
-                .clipShape(Capsule())
+        VStack(spacing: 16) {
+            // Translucent glass button
+            Button("Glass Button") { }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.capsule)
+            
+            // Prominent (opaque) glass button
+            Button("Prominent") { }
+                .buttonStyle(.glassProminent)
+                .buttonBorderShape(.capsule)
+            
+            // Tinted glass button
+            Button("Tinted") { }
+                .buttonStyle(.glass)
+                .tint(.purple)
+            
+            // Icon button
+            Button { } label: {
+                Image(systemName: "heart.fill")
+                    .frame(width: 44, height: 44)
+            }
+            .buttonStyle(.glass)
+            .buttonBorderShape(.circle)
         }
     }
 }
@@ -290,25 +417,83 @@ struct GlassButton: View {
 ### Glass Navigation Bar
 
 ```swift
+@available(iOS 26.0, *)
 struct GlassNavBar: View {
+    @Namespace private var namespace
+    
     var body: some View {
-        HStack {
-            Button(action: {}) {
-                Image(systemName: "chevron.left")
+        GlassEffectContainer {
+            HStack {
+                Button { } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18, weight: .semibold))
+                        .frame(width: 36, height: 36)
+                }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .glassEffectID("back", in: namespace)
+                
+                Spacer()
+                
+                Text("Liquid Glass")
+                    .font(.headline)
+                
+                Spacer()
+                
+                Button { } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 36, height: 36)
+                }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .glassEffectID("more", in: namespace)
             }
-            Spacer()
-            Text("Liquid Glass")
-                .font(.headline)
-            Spacer()
-            Button(action: {}) {
-                Image(systemName: "ellipsis")
-            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .glassEffect(.regular, in: Rectangle())
         }
-        .padding()
-        .background {
-            GlassView()
-                .blur(20)
-                .opacity(0.3)
+    }
+}
+```
+
+### Glass Tab Bar
+
+```swift
+@available(iOS 26.0, *)
+struct GlassTabBar: View {
+    @Binding var selectedTab: Int
+    @Namespace private var namespace
+    
+    let tabs = ["house.fill", "magnifyingglass", "plus.circle.fill", "heart.fill", "person.fill"]
+    
+    var body: some View {
+        GlassEffectContainer(spacing: 0) {
+            HStack(spacing: 0) {
+                ForEach(0..<tabs.count, id: \.self) { index in
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedTab = index
+                        }
+                    } label: {
+                        Image(systemName: tabs[index])
+                            .font(.title2)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .foregroundStyle(selectedTab == index ? .blue : .secondary)
+                            .background {
+                                if selectedTab == index {
+                                    Capsule()
+                                        .fill(.blue.opacity(0.15))
+                                        .matchedGeometryEffect(id: "selection", in: namespace)
+                                }
+                            }
+                    }
+                    .buttonStyle(.plain)
+                    .glassEffectID("tab-\(index)", in: namespace)
+                }
+            }
+            .padding(8)
+            .glassEffect(.regular, in: Capsule())
         }
     }
 }
