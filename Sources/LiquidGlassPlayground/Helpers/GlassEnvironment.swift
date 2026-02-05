@@ -29,25 +29,26 @@ struct GlassEnvironment {
     /// Whether the device supports high refresh rate.
     let supportsProMotion: Bool
     
-    /// The current device orientation.
-    let orientation: UIDeviceOrientation
+    /// Whether the device is in a landscape-like orientation.
+    let isLandscape: Bool
     
-    /// The current user interface style.
-    let userInterfaceStyle: UIUserInterfaceStyle
+    /// Whether the current color scheme is dark.
+    let isDarkAppearance: Bool
     
-    /// The device's preferred content size category.
-    let contentSizeCategory: UIContentSizeCategory
+    /// Whether the device uses a compact width layout.
+    let isCompactWidth: Bool
     
-    /// The current horizontal size class.
-    let horizontalSizeClass: UIUserInterfaceSizeClass
+    /// Whether the device uses a regular width layout.
+    let isRegularWidth: Bool
     
-    /// The current vertical size class.
-    let verticalSizeClass: UIUserInterfaceSizeClass
+    /// Whether content size is in an accessibility range.
+    let isAccessibilitySize: Bool
     
     // MARK: - Static Properties
     
     /// The current glass environment based on device state.
     static var current: GlassEnvironment {
+        #if os(iOS)
         let screen = UIScreen.main
         let device = UIDevice.current
         let traits = screen.traitCollection
@@ -57,19 +58,47 @@ struct GlassEnvironment {
             supportsVibrancy: true,
             reducedTransparency: UIAccessibility.isReduceTransparencyEnabled,
             supportsProMotion: screen.maximumFramesPerSecond >= 120,
-            orientation: device.orientation,
-            userInterfaceStyle: traits.userInterfaceStyle,
-            contentSizeCategory: traits.preferredContentSizeCategory,
-            horizontalSizeClass: traits.horizontalSizeClass,
-            verticalSizeClass: traits.verticalSizeClass
+            isLandscape: device.orientation.isLandscape,
+            isDarkAppearance: traits.userInterfaceStyle == .dark,
+            isCompactWidth: traits.horizontalSizeClass == .compact,
+            isRegularWidth: traits.horizontalSizeClass == .regular,
+            isAccessibilitySize: traits.preferredContentSizeCategory.isAccessibilityCategory
         )
+        #elseif os(macOS)
+        let reduceTransparency = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
+        let appearance = NSApp?.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua])
+        
+        return GlassEnvironment(
+            supportsBlur: !reduceTransparency,
+            supportsVibrancy: true,
+            reducedTransparency: reduceTransparency,
+            supportsProMotion: true,
+            isLandscape: true,
+            isDarkAppearance: appearance == .darkAqua,
+            isCompactWidth: false,
+            isRegularWidth: true,
+            isAccessibilitySize: false
+        )
+        #else
+        return GlassEnvironment(
+            supportsBlur: true,
+            supportsVibrancy: true,
+            reducedTransparency: false,
+            supportsProMotion: true,
+            isLandscape: false,
+            isDarkAppearance: false,
+            isCompactWidth: false,
+            isRegularWidth: true,
+            isAccessibilitySize: false
+        )
+        #endif
     }
     
     // MARK: - Computed Properties
     
     /// Whether glass effects should be simplified for accessibility.
     var shouldSimplifyEffects: Bool {
-        reducedTransparency || contentSizeCategory.isAccessibilityCategory
+        reducedTransparency || isAccessibilitySize
     }
     
     /// The recommended blur radius based on device capabilities.
@@ -82,17 +111,17 @@ struct GlassEnvironment {
     
     /// Whether the device is in compact layout.
     var isCompact: Bool {
-        horizontalSizeClass == .compact
+        isCompactWidth
     }
     
     /// Whether the device is in regular layout.
     var isRegular: Bool {
-        horizontalSizeClass == .regular
+        isRegularWidth
     }
     
     /// Whether dark mode is enabled.
     var isDarkMode: Bool {
-        userInterfaceStyle == .dark
+        isDarkAppearance
     }
 }
 
@@ -114,7 +143,8 @@ extension EnvironmentValues {
 
 // MARK: - Glass Style
 
-/// Predefined styles for glass effects.
+/// Predefined glass effect styles using native iOS 26 Liquid Glass API.
+@available(iOS 26.0, macOS 26.0, *)
 enum GlassStyle {
     case ultraThin
     case thin
@@ -123,20 +153,7 @@ enum GlassStyle {
     case ultraThick
     case chrome
     
-    /// The material for this style.
-    @ViewBuilder
-    var material: some ShapeStyle {
-        switch self {
-        case .ultraThin: Material.ultraThinMaterial
-        case .thin: Material.thinMaterial
-        case .regular: Material.regularMaterial
-        case .thick: Material.thickMaterial
-        case .ultraThick: Material.ultraThickMaterial
-        case .chrome: Material.bar
-        }
-    }
-    
-    /// The recommended blur radius for this style.
+    /// The blur radius for this style.
     var blurRadius: Double {
         switch self {
         case .ultraThin: return 5
@@ -147,34 +164,36 @@ enum GlassStyle {
         case .chrome: return 15
         }
     }
+    
+    /// The tint opacity for this style.
+    var tintOpacity: Double {
+        switch self {
+        case .ultraThin: return 0.05
+        case .thin: return 0.1
+        case .regular: return 0.15
+        case .thick: return 0.25
+        case .ultraThick: return 0.35
+        case .chrome: return 0.2
+        }
+    }
 }
 
 // MARK: - View Extensions
 
+@available(iOS 26.0, macOS 26.0, *)
 extension View {
     
-    /// Applies a glass effect to the view.
+    /// Applies a native glass effect to the view.
     /// - Parameters:
     ///   - style: The glass style to apply.
     ///   - cornerRadius: The corner radius for the glass shape.
-    /// - Returns: A view with the glass effect applied.
-    func glassEffect(
+    /// - Returns: A view with the native iOS 26 glass effect applied.
+    func liquidGlass(
         style: GlassStyle = .regular,
         cornerRadius: CGFloat = 16
     ) -> some View {
         self
-            .background(style.material, in: RoundedRectangle(cornerRadius: cornerRadius))
-            .overlay {
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .strokeBorder(
-                        LinearGradient(
-                            colors: [.white.opacity(0.4), .clear],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 0.5
-                    )
-            }
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: cornerRadius))
     }
     
     /// Applies a glass card style to the view.
@@ -183,7 +202,7 @@ extension View {
     func glassCard(padding: CGFloat = 16) -> some View {
         self
             .padding(padding)
-            .glassEffect()
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16))
             .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
     }
     
@@ -198,6 +217,7 @@ extension View {
 // MARK: - Adaptive Glass Modifier
 
 /// A view modifier that applies glass effects adaptively.
+@available(iOS 26.0, macOS 26.0, *)
 struct AdaptiveGlassModifier: ViewModifier {
     
     let parameters: GlassParameters
@@ -210,12 +230,10 @@ struct AdaptiveGlassModifier: ViewModifier {
                 .clipShape(RoundedRectangle(cornerRadius: parameters.cornerRadius))
         } else {
             content
-                .background(.ultraThinMaterial)
-                .overlay {
-                    RoundedRectangle(cornerRadius: parameters.cornerRadius)
-                        .fill(parameters.tintColor.color.opacity(parameters.tintOpacity))
-                }
-                .clipShape(RoundedRectangle(cornerRadius: parameters.cornerRadius))
+                .glassEffect(
+                    .regular.tint(parameters.tintColor.color.opacity(parameters.tintOpacity)),
+                    in: RoundedRectangle(cornerRadius: parameters.cornerRadius)
+                )
         }
     }
 }
