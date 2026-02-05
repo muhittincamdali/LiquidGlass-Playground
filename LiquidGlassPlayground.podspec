@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Muhittin Camdali' => 'contact@muhittincamdali.com' }
   s.source           = { :git => 'https://github.com/muhittincamdali/LiquidGlass-Playground.git', :tag => s.version.to_s }
-  s.ios.deployment_target = '15.0'
-  s.swift_versions = ['5.9', '5.10', '6.0']
+  s.ios.deployment_target = '26.0'
+  s.swift_versions = ['6.0']
   s.source_files = 'Sources/**/*.swift'
 end
