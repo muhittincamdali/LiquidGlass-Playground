@@ -6,6 +6,8 @@
 
 ---
 
+## 🚀 Killer Feature: Instant Code Export
+Don't just play—ship. Once you've tuned your glass parameters to perfection in the UI, hit 'Export' and the engine generates 100% production-ready, strict-concurrency SwiftUI code for your project.
 > **🛡️ PART OF THE 2026 UNIFIED CORE**
 > This repository is a verified component of 'The Endless March' initiative. Purified for Swift 6, zero-dependency, and engineered for maximum hardware saturation.
 > 
